@@ -2,7 +2,6 @@ import yt_dlp
 import os
 import subprocess
 import platform
-import shutil
 
 def open_folder(path):
     system = platform.system()
@@ -13,23 +12,11 @@ def open_folder(path):
     else:
         subprocess.run(["xdg-open", path])
 
-def find_browser():
-    browsers = ['firefox', 'chrome', 'edge', 'brave', 'opera']
-    for browser in browsers:
-        if shutil.which(browser):
-            print(f"Найден браузер: {browser}")
-            return browser
-    print("Браузер не найден, используем Firefox по умолчанию")
-    return 'firefox'
-#рабоает криво ? вроде как?
-
-
-def download_wav_from_youtube(url):
+def download_wav_from_youtube(url, browser):
     download_dir = "downloads"
     os.makedirs(download_dir, exist_ok=True)
 
     ffmpeg_dir = os.path.join(os.getcwd(), 'bin')
-    browser = find_browser()
 
     ydl_opts = {
         'format': 'bestaudio/best',
@@ -53,4 +40,5 @@ def download_wav_from_youtube(url):
         print(f"Ошибка: {e}")
 
 youtube_link = input("Вставь ссылку на YouTube: ")
-download_wav_from_youtube(youtube_link)
+browser_name = input("Введи свой браузер (например: firefox, chrome, edge, opera, brave): ").strip().lower()
+download_wav_from_youtube(youtube_link, browser_name)
