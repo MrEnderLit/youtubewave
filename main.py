@@ -12,7 +12,7 @@ def open_folder(path):
     else:
         subprocess.run(["xdg-open", path])
 
-def download_wav_from_youtube(url, browser):
+def download_wav_from_youtube(url, browser, format):
     download_dir = "downloads"
     os.makedirs(download_dir, exist_ok=True)
 
@@ -25,11 +25,11 @@ def download_wav_from_youtube(url, browser):
         'outtmpl': os.path.join(download_dir, '%(title)s.%(ext)s'),
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
-            'preferredcodec': 'wav',
+            'preferredcodec': format,
         }],
     }
 
-    print("Скачиваю и сохраняю в .wav...")
+    print("Скачиваю и сохраняю...")
 
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -41,4 +41,5 @@ def download_wav_from_youtube(url, browser):
 
 youtube_link = input("Вставь ссылку на YouTube: ")
 browser_name = input("Введи свой браузер (например: firefox, chrome, edge, opera, brave): ").strip().lower()
-download_wav_from_youtube(youtube_link, browser_name)
+formatvideo = str(input("введите формат (mp3, wav): "))
+download_wav_from_youtube(youtube_link, browser_name, formatvideo)
